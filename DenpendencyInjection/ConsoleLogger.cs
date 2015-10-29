@@ -2,7 +2,7 @@
 
 namespace DenpendencyInjection
 {
-  class ConsoleLogger
+  class ConsoleLogger:ILogger
   {
     public void Log(string message)
     {
