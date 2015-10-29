@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ninject;
 
 namespace DenpendencyInjection
 {
@@ -10,8 +11,14 @@ namespace DenpendencyInjection
   {
     static void Main(string[] args)
     {
-      var mailService = new MailService(new EventLogger());
-      mailService.SendEmail("someone@somewhere.com", "the first DI app", "Hello World!");
+      using (var kernel=new StandardKernel())
+      {
+        kernel.Bind<ILogger>().To<ConsoleLogger>();
+        // when bind to multiple class use:
+        // kernel.Bind<IService1,IService2>().To<MyService>();
+        var mailService = kernel.Get<MailService>();
+        mailService.SendEmail("someone@domain.com", "Hi", null);
+      }
     }
   }
 }
