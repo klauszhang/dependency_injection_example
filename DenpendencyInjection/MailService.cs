@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Mail;
 
 namespace DenpendencyInjection
@@ -6,23 +7,37 @@ namespace DenpendencyInjection
   class MailService
   {
     private ILogger logger;
-    public MailService(ILogger logger)
+    private SmtpClient client;
+    private string sender;
+
+    public MailService(MailServerConfig config, ILogger logger)
     {
       this.logger = logger;
+      InitializeClient(config);
+      sender = config.SenderEmail;
     }
 
     public void SendEmail(string address, string subject, string body)
     {
-      Console.WriteLine("Creating mail message...");
-      var mail = new MailMessage();
-      mail.To.Add(address);
+      logger.Log("initializing...");
+      var mail = new MailMessage(sender,address);
       mail.Subject = subject;
       mail.Body = body;
-      var client=new SmtpClient();
-      // Setup client here
-      Console.WriteLine("Sending message...");
+      logger.Log("Sending message...");
       client.Send(mail);
-      Console.WriteLine("Message sent successfully.");
+      logger.Log("Message sent successfully.");
+    }
+
+    private void InitializeClient(MailServerConfig config)
+    {
+      client = new SmtpClient();
+      client.Host = config.SmtpServer;
+      client.Port = config.SmtpPort;
+      client.EnableSsl = true;
+      var credentials = new NetworkCredential();
+      credentials.UserName = config.SenderEmail;
+      credentials.Password = config.SenderEmail;
+      client.Credentials = credentials;
     }
   }
 }
