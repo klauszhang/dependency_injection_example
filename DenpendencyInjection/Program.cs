@@ -10,6 +10,8 @@ namespace DenpendencyInjection
   {
     static void Main(string[] args)
     {
+      var mailService = new MailService(new EventLogger());
+      mailService.SendEmail("someone@somewhere.com", "the first DI app", "Hello World!");
     }
   }
 }

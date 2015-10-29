@@ -5,10 +5,10 @@ namespace DenpendencyInjection
 {
   class MailService
   {
-    private ConsoleLogger logger;
-    public MailService()
+    private ILogger logger;
+    public MailService(ILogger logger)
     {
-      logger = new ConsoleLogger();
+      this.logger = logger;
     }
 
     public void SendEmail(string address, string subject, string body)
