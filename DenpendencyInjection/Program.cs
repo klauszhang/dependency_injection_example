@@ -16,6 +16,7 @@ namespace DenpendencyInjection
         kernel.Bind<ILogger>().To<ConsoleLogger>().InSingletonScope();
         // when bind to multiple class use:
         // kernel.Bind<IService1,IService2>().To<MyService>();
+        kernel.Bind<MailServerConfig>().ToSelf().InSingletonScope();
         var mailService = kernel.Get<MailService>();
         mailService.SendEmail("someone@domain.com", "Hi", null);
       }
