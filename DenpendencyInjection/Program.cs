@@ -13,7 +13,7 @@ namespace DenpendencyInjection
     {
       using (var kernel=new StandardKernel())
       {
-        kernel.Bind<ILogger>().ToConstant(ConsoleLogger.Instance);
+        kernel.Bind<ILogger>().To<ConsoleLogger>().InSingletonScope();
         // when bind to multiple class use:
         // kernel.Bind<IService1,IService2>().To<MyService>();
         var mailService = kernel.Get<MailService>();
