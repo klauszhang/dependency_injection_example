@@ -9,6 +9,12 @@ namespace DenpendencyInjection
 {
   class MailService
   {
+    private ConsoleLogger logger;
+    public MailService()
+    {
+      logger = new ConsoleLogger();
+    }
+
     public void SendEmail(string address, string subject, string body)
     {
       Console.WriteLine("Creating mail message...");
